@@ -1,10 +1,10 @@
-from django.db import models
+from django.db import models  # noqa: F401
 
 # Create your models here.
-#Should extends from User default class in django, adding new fields.
+# Should extends from User default class in django, adding new fields.
 
-""" User ID: A unique reference number to identify the user in your system. This number is typically generated automatically.
-Registration Date: The date when the user account was created.
+"""  User ID: A unique reference number to identify the user in your system. This number is typically generated automatically.  """  # noqa: E501
+""" Registration Date: The date when the user account was created.
 Username: A unique field used as the login identifier.
 Email Address: For communication and password recovery.
 Password: Stores the user's password securely (use hashing and salting techniques).
@@ -17,8 +17,7 @@ Wish List: If your platform allows users to create and manage lists of desired p
 User Role: Defines the user's level of access or permissions (e.g., admin, customer, employee, etc.).
 Account Status: Can indicate if the account is active, locked, or suspended.
 Profile Picture or Avatar: To allow users to personalize their profiles.
-Notification and Communication Preferences: Settings for notification and communication preferences.
-Verification Code: For implementing email verification or two-factor authentication.
+Notification and Communication Preferences: Settings for notification and communication preferences."""  # noqa: E501
+""" Verification Code: For implementing email verification or two-factor authentication.
 Password Reset Token: If you allow users to reset their passwords.
-Security Questions/Answers: Additional security measures, like security questions and answers. """
-
+Security Questions/Answers: Additional security measures, like security questions and answers. """  # noqa: E501
