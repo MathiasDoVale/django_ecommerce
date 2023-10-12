@@ -18,7 +18,13 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic.base import TemplateView
 
+from login.views import signup_view
+from products.views import add_product_view
+
 urlpatterns = [
+    path('administration/add_product/', add_product_view, name='add_product'),
+    path('administration/', TemplateView.as_view(template_name='administration/administration.html'), name='administration'),
+    path('account/signup/', signup_view),
     path('account/', include('django.contrib.auth.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path("admin/", admin.site.urls),
