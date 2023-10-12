@@ -1,5 +1,3 @@
-from django.shortcuts import render
+from django.shortcuts import render  # noqa: F401
 
 # Create your views here.
-def home(request, *args, **kwargs):
-    return render(request, "home.html")
