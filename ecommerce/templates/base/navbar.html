@@ -9,15 +9,22 @@
         <li class="nav-item">
           <a class="nav-link" href="/account/login">Login</a>
         </li>
+        {% if not user.is_authenticated %}
         <li class="nav-item">
-            <a class="nav-link" href="/account/register">Register</a>
+            <a class="nav-link" href="/account/signup">Register</a>
           </li>
+        {% endif %}
         <li class="nav-item">
             <a class="nav-link" href="/orders">Orders</a>
           </li>
         <li class="nav-item">
             <a class="nav-link" href="/account/logout">Logout</a>
         </li>
+        {% if user.is_superuser %}
+        <li class="nav-item">
+          <a class="nav-link" href="/administration/">Administration</a>
+        </li>
+        {% endif %}
       </ul>
     </div>
   </nav>
