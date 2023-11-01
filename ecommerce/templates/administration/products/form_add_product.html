@@ -1,0 +1,24 @@
+{%  extends "base.html" %}
+
+{%  block content %}
+
+<form method="POST" action="." enctype="multipart/form-data"> {% csrf_token %}
+    {{ form_add_product.as_p }}
+
+    {% for value, text in form_inventory.sizes.field.choices %}
+        <span style="white-space: nowrap; margin: 10px;">
+            <input type="checkbox" name="sizes" value="{{value}}"/>
+                <label>{{ text }}</label>
+        </span>
+    {% endfor %}
+    <br>
+
+    <label>Quantity</label>
+    {{form_inventory.quantity}}
+    
+    {{ form_gender.as_p }}
+    <button type="submit">{% if submit_btn %} {{ submit_btn }} {% else %} Submit {% endif %}
+    </button>
+</form>
+
+{%  endblock %}

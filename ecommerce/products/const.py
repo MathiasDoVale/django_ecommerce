@@ -50,3 +50,10 @@ SIZE_CHOICES = (
     ('14', '14'),
     ('15', '15'),
 )
+
+GENDERS_CHOICES = (
+    ('MEN', 'Men'),
+    ('WOMEN', 'Women'),
+    ('BOY', 'Boy'),
+    ('GIRL', 'Girl'),
+)

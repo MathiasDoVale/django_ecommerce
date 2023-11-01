@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from .const import SIZE_CHOICES
+from .const import SIZE_CHOICES, GENDERS_CHOICES
 
 # Create your models here.
 class Product(models.Model):
@@ -17,4 +17,16 @@ class Inventory(models.Model):
        max_length=5,
        choices=SIZE_CHOICES,
    )
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+
+class Gender(models.Model):
+
+    gender = models.CharField(
+       choices=GENDERS_CHOICES,
+    )
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+class Image(models.Model):
+    image = models.ImageField(upload_to='shoes')
+    gender = models.ForeignKey(Gender, on_delete=models.CASCADE)
+    

@@ -1,5 +1,6 @@
-from django.forms import ModelForm, Textarea, IntegerField, BooleanField
+from django.forms import ModelForm, Textarea, IntegerField, MultipleChoiceField, CheckboxSelectMultiple, Form
 from .models import Product, Inventory
+from . const import GENDERS_CHOICES, SIZE_CHOICES
 
 class AddProductForm(ModelForm):
     class Meta:
@@ -10,11 +11,12 @@ class AddProductForm(ModelForm):
                                     "rows": 1}),
         }
         
-class InventoryForm(ModelForm):
-    class Meta:
-        model = Inventory
-        fields = ["size"]
-    
+class InventoryForm(Form):
+    sizes = MultipleChoiceField(widget=CheckboxSelectMultiple(),
+                                choices=SIZE_CHOICES)
     quantity = IntegerField()
-        
+
+class GenderForm(Form):
+    genders = MultipleChoiceField(widget=CheckboxSelectMultiple,
+                                          choices=GENDERS_CHOICES)
     
