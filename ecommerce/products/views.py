@@ -26,11 +26,11 @@ def delete_product_view(request, force_delete, product_id):
         return redirect("edit_product")
     if request.method == "GET":
         try:
+            Product.objects.filter(id=product_id).delete()
             images_list = Image.objects.filter(product_id=product_id)
             for item in images_list:
                 item.image.delete()
-
-            Product.objects.filter(id=product_id).delete()
+            
             product_id = None
         except ProtectedError:
             messages.error(request, "There are items in inventory for this product.")  # noqa: E501
