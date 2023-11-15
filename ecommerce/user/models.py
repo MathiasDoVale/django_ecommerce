@@ -24,7 +24,7 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
-    
+
 
 class Address(models.Model):
     country = CountryField(blank=True)
@@ -35,18 +35,17 @@ class Address(models.Model):
     building_number = models.CharField(max_length=12, blank=True)
     active = models.BooleanField(default=True)
 
-    class Meta: 
+    class Meta:
         abstract = True
 
-    
+
 class ShippingAddress(Address):
 
     """
     Stores the address of a user.
 
     """
-    user = models.ManyToManyField(CustomUser, related_name='shipping_addresses')
-    
+    user = models.ManyToManyField(CustomUser, related_name='shipping_addresses')  # noqa: E501
 
 
 class BillingAddress(Address):
@@ -56,6 +55,7 @@ class BillingAddress(Address):
     """
     user = models.ManyToManyField(CustomUser, related_name='billing_addresses')
     tax_id = models.CharField(max_length=30, blank=True)
+
 
 """
 Purchase History: A record of the user's previous purchases, including details like purchased products, purchase date, and order status.

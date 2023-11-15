@@ -15,10 +15,10 @@
 
     <label>Quantity</label>
     {{form_inventory.quantity}}
-    
-    {{ form_gender.as_p }}
-    <button type="submit">{% if submit_btn %} {{ submit_btn }} {% else %} Submit {% endif %}
-    </button>
+    <br><br><br>
+    <button type="submit"> Submit </button>
 </form>
-
+{% if  product_id %}
+    <a href="{% url 'edit_product_detail' product_id=product_id %}">Click to edit new product added</a>
+{% endif %}
 {%  endblock %}

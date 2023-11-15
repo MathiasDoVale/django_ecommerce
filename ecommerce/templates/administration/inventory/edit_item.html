@@ -1,0 +1,11 @@
+{%  extends "base.html" %}
+
+{%  block content %}
+    <h4>Edit item size</h4>
+    <form method="POST" action="./{{item_id}}" enctype="multipart/form-data"> {% csrf_token %}
+        {{form_edit_item}}
+        
+        <br>
+        <button type="submit"> Submit </button>
+    </form>
+{%  endblock %}

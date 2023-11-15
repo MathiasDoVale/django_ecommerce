@@ -5,19 +5,22 @@ from django.contrib.auth import get_user_model, login
 
 User = get_user_model()
 
+
 def signup_view(request):
     form = SignUpForm(request.POST or None)
     if form.is_valid():
         email = form.cleaned_data.get("email")
         password = form.cleaned_data.get("password1")
-        password2 = form.cleaned_data.get("password2")
+        # TODO check if are equals in html
+        # password2 = form.cleaned_data.get("password2")
         try:
             user = User.objects.create_user(email, password)
-        except:
+        # TODO handle errors
+        except:  # noqa: E722
             user = None
-        if user != None:
+        if user is not None:
             login(request, user)
             return redirect("/")
         else:
-            request.session['register_error'] = 1 # 1 == True
+            request.session['register_error'] = 1
     return render(request, "forms.html", {"form": form})

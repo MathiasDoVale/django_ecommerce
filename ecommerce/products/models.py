@@ -1,32 +1,38 @@
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
-from .const import SIZE_CHOICES, GENDERS_CHOICES
+from .const import SIZE_CHOICES
+
 
 # Create your models here.
 class Product(models.Model):
 
-    name = models.CharField(max_length=50)
+    brand = models.CharField(max_length=50)
+    model = models.CharField(max_length=50)
+    color = models.CharField(max_length=50)
     description = models.TextField()
     price = models.FloatField()
     creation_date = models.DateTimeField(default=timezone.now)
-    
+
+
 class Inventory(models.Model):
 
-    size = models.CharField(
-       max_length=5,
-       choices=SIZE_CHOICES,
-   )
+    size = models.CharField(max_length=5, choices=SIZE_CHOICES,)
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
 
-class Gender(models.Model):
+    @classmethod
+    def add_units(self, sizes, quantity, product_id):
+        for size in sizes:
+            i = 0
+            while i < quantity:
+                obj = Inventory(size=size, product_id=product_id)
+                obj.save()
+                i += 1
 
-    gender = models.CharField(
-       choices=GENDERS_CHOICES,
-    )
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
 class Image(models.Model):
-    image = models.ImageField(upload_to='shoes')
-    gender = models.ForeignKey(Gender, on_delete=models.CASCADE)
-    
+    image = models.ImageField(upload_to="shoes", null=False, blank=False)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    man = models.BooleanField(default=False)
+    woman = models.BooleanField(default=False)
+    boy = models.BooleanField(default=False)
+    girl = models.BooleanField(default=False)
