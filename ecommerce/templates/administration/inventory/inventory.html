@@ -1,0 +1,30 @@
+{%  extends "base.html" %}
+
+{%  block content %}
+    <h4>Inventory List</h4>
+    <table class="table table-dark">
+        <thead>
+          <tr>
+            <th scope="col">BRAND</th>
+            <th scope="col">MODEL</th>
+            <th scope="col">COLOR</th>
+            <th scope="col">INVENTORY ID</th>
+            <th scope="col">SIZE</th>
+            <th scope="col">EDIT</th>
+            <th scope="col">DELETE</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for key, value in data.items %}
+            <tr>
+                <td>{{value.product.brand}}</td>
+                <td>{{value.product.model}}</td>
+                <td>{{value.product.color}}</td>
+                <td><a href="{% url 'add_item_inventory' product_id=value.product.id %}">{{value.quantity}}</a></td>
+                <td><a href="{% url 'edit_product_detail' product_id=value.product.id %}">edit</a></td>
+                <td><a href="{% url 'delete_product' force_delete=0 product_id=value.product.id %}" >delete</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{%  endblock %}

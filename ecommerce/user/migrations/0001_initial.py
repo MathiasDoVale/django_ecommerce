@@ -18,19 +18,19 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CustomUser',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('password', models.CharField(max_length=128, verbose_name='password')),
-                ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
-                ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
-                ('first_name', models.CharField(blank=True, max_length=150, verbose_name='first name')),
-                ('last_name', models.CharField(blank=True, max_length=150, verbose_name='last name')),
-                ('is_staff', models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='staff status')),
-                ('is_active', models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active')),
-                ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
-                ('email', models.EmailField(max_length=254, unique=True, verbose_name='email address')),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),  # noqa: 501
+                ('password', models.CharField(max_length=128, verbose_name='password')),  # noqa: 501
+                ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),  # noqa: 501
+                ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),  # noqa: 501
+                ('first_name', models.CharField(blank=True, max_length=150, verbose_name='first name')),  # noqa: 501
+                ('last_name', models.CharField(blank=True, max_length=150, verbose_name='last name')),  # noqa: 501
+                ('is_staff', models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='staff status')),  # noqa: 501
+                ('is_active', models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active')),  # noqa: 501
+                ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),  # noqa: 501
+                ('email', models.EmailField(max_length=254, unique=True, verbose_name='email address')),  # noqa: 501
                 ('phone_number', models.CharField(blank=True, max_length=30)),
-                ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),
-                ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.permission', verbose_name='user permissions')),
+                ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),  # noqa: 501
+                ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.permission', verbose_name='user permissions')),  # noqa: 501
             ],
             options={
                 'verbose_name': 'user',
@@ -41,15 +41,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ShippingAddress',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('country', django_countries.fields.CountryField(blank=True, max_length=2)),
-                ('state_province', models.CharField(blank=True, max_length=80)),
-                ('postal_zip_code', models.CharField(blank=True, max_length=12)),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),  # noqa: 501
+                ('country', django_countries.fields.CountryField(blank=True, max_length=2)),  # noqa: 501
+                ('state_province', models.CharField(blank=True, max_length=80)),  # noqa: 501
+                ('postal_zip_code', models.CharField(blank=True, max_length=12)),  # noqa: 501
                 ('city', models.CharField(blank=True, max_length=80)),
-                ('street_address', models.CharField(blank=True, max_length=80)),
-                ('building_number', models.CharField(blank=True, max_length=12)),
+                ('street_address', models.CharField(blank=True, max_length=80)),  # noqa: 501
+                ('building_number', models.CharField(blank=True, max_length=12)),  # noqa: 501
                 ('active', models.BooleanField(default=True)),
-                ('user', models.ManyToManyField(related_name='shipping_addresses', to=settings.AUTH_USER_MODEL)),
+                ('user', models.ManyToManyField(related_name='shipping_addresses', to=settings.AUTH_USER_MODEL)),  # noqa: 501
             ],
             options={
                 'abstract': False,
@@ -58,16 +58,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BillingAddress',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('country', django_countries.fields.CountryField(blank=True, max_length=2)),
-                ('state_province', models.CharField(blank=True, max_length=80)),
-                ('postal_zip_code', models.CharField(blank=True, max_length=12)),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),  # noqa: 501
+                ('country', django_countries.fields.CountryField(blank=True, max_length=2)),  # noqa: 501
+                ('state_province', models.CharField(blank=True, max_length=80)),  # noqa: 501
+                ('postal_zip_code', models.CharField(blank=True, max_length=12)),  # noqa: 501
                 ('city', models.CharField(blank=True, max_length=80)),
-                ('street_address', models.CharField(blank=True, max_length=80)),
-                ('building_number', models.CharField(blank=True, max_length=12)),
+                ('street_address', models.CharField(blank=True, max_length=80)),  # noqa: 501
+                ('building_number', models.CharField(blank=True, max_length=12)),  # noqa: 501
                 ('active', models.BooleanField(default=True)),
                 ('tax_id', models.CharField(blank=True, max_length=30)),
-                ('user', models.ManyToManyField(related_name='billing_addresses', to=settings.AUTH_USER_MODEL)),
+                ('user', models.ManyToManyField(related_name='billing_addresses', to=settings.AUTH_USER_MODEL)),  # noqa: 501
             ],
             options={
                 'abstract': False,

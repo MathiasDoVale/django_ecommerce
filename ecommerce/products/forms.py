@@ -1,20 +1,35 @@
-from django.forms import ModelForm, Textarea, IntegerField, BooleanField
-from .models import Product, Inventory
+from django.forms import (
+    ModelForm,
+    Textarea,
+    IntegerField,
+    MultipleChoiceField,
+    CheckboxSelectMultiple,
+    Form
+)
+from .models import Product, Image, Inventory
+from . const import SIZE_CHOICES
+
 
 class AddProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = ["name", "description", "price"]
-        widgets = {
-            "description": Textarea(attrs={"cols": 50, 
-                                    "rows": 1}),
-        }
-        
-class InventoryForm(ModelForm):
+        fields = ["brand", "model", "color", "description", "price"]
+        widgets = {"description": Textarea(attrs={"cols": 50, "rows": 1})}
+
+
+class InventoryForm(Form):
+    sizes = MultipleChoiceField(widget=CheckboxSelectMultiple(),
+                                choices=SIZE_CHOICES)
+    quantity = IntegerField()
+
+
+class EditItemForm(ModelForm):
     class Meta:
         model = Inventory
         fields = ["size"]
-    
-    quantity = IntegerField()
-        
-    
+
+
+class AddImageForm(ModelForm):
+    class Meta:
+        model = Image
+        exclude = ('product', )
