@@ -1,0 +1,15 @@
+{%  extends "base.html" %}
+
+{%  block content %}
+    {% for key, value in data.items %}
+        <h1 class="card-text" style="color: black;">{{ value.product.color }}</h1>
+        {% for item in value.images %}
+            <div class="card text-center" style="width: 14.5rem;">
+                <img class="card-img-top" src={{item.image.url}}>
+            </div>
+        {% endfor %}
+        {% for item in value.items_inventory %}
+            <p>{{item.size}}</p>
+        {% endfor %}
+    {% endfor %}
+{%  endblock %}

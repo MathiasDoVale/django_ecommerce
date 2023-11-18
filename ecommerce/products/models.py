@@ -12,6 +12,7 @@ class Product(models.Model):
     description = models.TextField()
     price = models.FloatField()
     creation_date = models.DateTimeField(default=timezone.now)
+    has_item = models.BooleanField(default=False)
 
 
 class Inventory(models.Model):
@@ -21,11 +22,14 @@ class Inventory(models.Model):
 
     @classmethod
     def add_units(self, sizes, quantity, product_id):
+        product = Product.objects.get(id=product_id)
         for size in sizes:
             i = 0
             while i < quantity:
                 obj = Inventory(size=size, product_id=product_id)
                 obj.save()
+                product.has_item = True
+                product.save()
                 i += 1
 
 

@@ -30,22 +30,25 @@ from products.views import (
     add_item_inventory_view,
     edit_item_inventory_view,
     delete_item_inventory_view,
-    delete_image_view
+    delete_image_view,
+    product_detail_view
 )
 
 urlpatterns = [
+    path('product/<int:product_id_model>', product_detail_view, name='product_detail'),  # noqa: E501
     path('administration/inventory/image/delete/<int:product_id>/<int:image_id>/<str:gender>', delete_image_view, name='delete_image'),  # noqa: E501
     path('administration/inventory/delete/<int:product_id>/<int:item_id>', delete_item_inventory_view, name='delete_item_inventory'),  # noqa: E501
     path('administration/inventory/edit/<int:item_id>', edit_item_inventory_view, name='edit_item_inventory'),  # noqa: E501
     path('administration/inventory/<int:product_id>', add_item_inventory_view, name='add_item_inventory'),  # noqa: E501
     path('administration/edit/products/<int:product_id>/', edit_product_detail_view, name='edit_product_detail'),  # noqa: E501
-    path('administration/edit/products/<int:force_delete>/<int:product_id>/', edit_product_view, name='edit_product_force_delete'),  # noqa: E501
+    path('administration/edit/products/<int:force_delete_flag>/<int:product_id>/', edit_product_view, name='edit_product_force_delete'),  # noqa: E501
     path('administration/edit/products/', edit_product_view, name='edit_product'),  # noqa: E501
     path('administration/add_product/', add_product_view, name='add_product'),
     path('administration/', TemplateView.as_view(template_name='administration/administration.html'), name='administration'),  # noqa: E501
     path('account/signup/', signup_view),
     path('account/', include('django.contrib.auth.urls')),
-    path('delete_product/<int:force_delete>/<int:product_id>', delete_product_view, name='delete_product'),  # noqa: E501
+    path('delete_product/<int:force_delete_flag>/<int:product_id>', delete_product_view, name='delete_product'),  # noqa: E501
+    path('<str:gender>', home_view, name='home'),  # noqa: E501
     path('', home_view, name='home'),
     path("admin/", admin.site.urls),
 ]
