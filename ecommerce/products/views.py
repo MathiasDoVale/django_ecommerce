@@ -156,10 +156,10 @@ def product_detail_view(request, product_id_model):
     selected_product = Product.objects.get(id=product_id_model)
     similar_products = Product.objects.filter(brand=selected_product.brand, model=selected_product.model)
 
-    data = {}
-    for i, product in enumerate(similar_products):
+    data = []
+    for product in similar_products:
         images = Image.objects.filter(product_id=product.id)
         items_inventory = Inventory.objects.filter(product_id=product.id).distinct('size')
         if images and items_inventory:
-            data[i] = {'product': product, 'images': images, 'items_inventory': items_inventory}
+            data.append({'product': product, 'images': images, 'items_inventory': items_inventory})
     return render(request, "products/product_detail.html", {'data': data})

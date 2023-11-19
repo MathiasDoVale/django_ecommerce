@@ -1,24 +1,38 @@
-{%  extends "base.html" %}
+{% extends "base.html" %}
 
-{%  block content %}
-
-<form method="POST" action="." enctype="multipart/form-data"> {% csrf_token %}
-    {{ form_add_product.as_p }}
-
-    {% for value, text in form_inventory.sizes.field.choices %}
-        <span style="white-space: nowrap; margin: 10px;">
-            <input type="checkbox" name="sizes" value="{{value}}"/>
-                <label>{{ text }}</label>
-        </span>
-    {% endfor %}
-    <br>
-
-    <label>Quantity</label>
-    {{form_inventory.quantity}}
-    <br><br><br>
-    <button type="submit"> Submit </button>
-</form>
-{% if  product_id %}
-    <a href="{% url 'edit_product_detail' product_id=product_id %}">Click to edit new product added</a>
-{% endif %}
-{%  endblock %}
+{% block content %}
+  <div class="container mt-5">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="mb-0" style="color: #000;">Add Product</h2> <!-- Change color here -->
+      </div>
+      <div class="card-body">
+        <form method="POST" action="." enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group" style="color: #000;"> <!-- Change color here -->
+            {{ form_add_product.as_p }}
+          </div>
+          <div class="form-group">
+            <label for="sizes" style="color: #000;">Sizes</label> <!-- Change color here -->
+            {% for value, text in form_inventory.sizes.field.choices %}
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="size-{{value}}" name="sizes" value="{{value}}">
+                <label class="form-check-label" for="size-{{value}}" style="color: #000;">{{ text }}</label> <!-- Change color here -->
+              </div>
+            {% endfor %}
+          </div>
+          <div class="form-group">
+            <label for="quantity" style="color: #000;">Quantity</label> <!-- Change color here -->
+            {{form_inventory.quantity}}
+          </div>
+          <button type="submit" class="btn btn-primary mb-3">Submit</button>
+        </form>
+        {% if  product_id %}
+          <div class="mt-3">
+            <a class="btn btn-info" href="{% url 'edit_product_detail' product_id=product_id %}">Click to edit new product added</a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

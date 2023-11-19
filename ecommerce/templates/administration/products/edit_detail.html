@@ -1,83 +1,76 @@
-{%  extends "base.html" %}
+{% extends "base.html" %}
+{% load static %}
 
-{%  block content %}
-    <h2>Edit Product</h2>
-    <form method="POST" action="." enctype="multipart/form-data"> {% csrf_token %}
-    
-        {{form_add_product.as_p}} <br><br><br>
-        <h5>Edit Images</h5>
-        {{form_image.as_p}}
-        <button type="submit"> Submit
-        </button>
-    </form>
-    {% load static %}
+{% block content %}
+    <div class="container">
+        <h2 class="my-4">Edit Product</h2>
+        <form method="POST" action="." enctype="multipart/form-data" class="mb-5"> 
+            {% csrf_token %}
+            {{form_add_product.as_p}} 
+            <h5 class="mt-4">Edit Images</h5>
+            {{form_image.as_p}}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
 
-    <h3>MEN</h3>
         <div class="row">
-            {% for image in images %}
-                {% if image.man == True %}
-                    <div class="col-lg-4 col-md-4 col-xs-4 thumb">
-                        <a class="thumbnail" href="#">
-                            <img style="width: 100px; height: 100px; margin: 3px;" class="img-responsive"  src={{image.image.url}}  alt="">
-                            <a href="{% url 'delete_image' product_id=product_id image_id=image.id gender='man' %}" >delete</a>
-                        </a>
-                    </div>
-                    <br>
-                {% endif %}
-                
-            {% endfor %}
+            <div class="col-lg-6">
+                <h3>MEN</h3>
+                {% for image in images %}
+                    {% if image.man == True %}
+                        <div class="col-lg-4 col-md-4 col-xs-4 thumb">
+                            <a class="thumbnail" href="#">
+                                <img style="width: 100px; height: 100px; margin: 3px;" class="img-responsive"  src={{image.image.url}}  alt="">
+                                <a href="{% url 'delete_image' product_id=product_id image_id=image.id gender='man' %}" class="btn btn-danger btn-sm">delete</a>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="col-lg-6">
+                <h3>WOMEN</h3>
+                {% for image in images %}
+                    {% if image.woman == True %}
+                        <div class="col-lg-4 col-md-4 col-xs-4 thumb">
+                            <a class="thumbnail" href="#">
+                                <img style="width: 100px; height: 100px; margin: 3px;" class="img-responsive"  src={{image.image.url}}  alt="">
+                                <a href="{% url 'delete_image' product_id=product_id image_id=image.id gender='woman' %}" class="btn btn-danger btn-sm">delete</a>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
 
-    <br><br><br>
+        <div class="row mt-5">
+            <div class="col-lg-6">
+                <h3>GIRLS</h3>
+                {% for image in images %}
+                    {% if image.girl == True %}
+                        <div class="col-lg-4 col-md-4 col-xs-4 thumb">
+                            <a class="thumbnail" href="#">
+                                <img style="width: 100px; height: 100px; margin: 3px;" class="img-responsive"  src={{image.image.url}}  alt="">
+                                <a href="{% url 'delete_image' product_id=product_id image_id=image.id gender='girl' %}" class="btn btn-danger btn-sm">delete</a>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
 
-    <h3>WOMEN</h3>
-        <div class="row">
-            {% for image in images %}
-                {% if image.woman == True %}
-                    <div class="col-lg-4 col-md-4 col-xs-4 thumb">
-                        <a class="thumbnail" href="#">
-                            <img style="width: 100px; height: 100px; margin: 3px;" class="img-responsive"  src={{image.image.url}}  alt="">
-                            <a href="{% url 'delete_image' product_id=product_id image_id=image.id gender='woman' %}" >delete</a>
-                        </a>
-                    </div>
-                    <br>
-                {% endif %}
-                
-            {% endfor %}
+            <div class="col-lg-6">
+                <h3>BOYS</h3>
+                {% for image in images %}
+                    {% if image.boy == True %}
+                        <div class="col-lg-4 col-md-4 col-xs-4 thumb">
+                            <a class="thumbnail" href="#">
+                                <img style="width: 100px; height: 100px; margin: 3px;" class="img-responsive"  src={{image.image.url}}  alt="">
+                                <a href="{% url 'delete_image' product_id=product_id image_id=image.id gender='boy' %}" class="btn btn-danger btn-sm">delete</a>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
-
-    <br><br><br>
-
-    <h3>GIRLS</h3>
-        <div class="row">
-            {% for image in images %}
-                {% if image.girl == True %}
-                    <div class="col-lg-4 col-md-4 col-xs-4 thumb">
-                        <a class="thumbnail" href="#">
-                            <img style="width: 100px; height: 100px; margin: 3px;" class="img-responsive"  src={{image.image.url}}  alt="">
-                            <a href="{% url 'delete_image' product_id=product_id image_id=image.id gender='girl' %}" >delete</a>
-                        </a>
-                    </div>
-                    <br>
-                {% endif %}
-            {% endfor %}
-        </div>
-    <br><br><br>
-
-    <h3>BOYS</h3>
-    <div class="row">
-            {% for image in images %}
-                {% if image.boy == True %}
-                    <div class="col-lg-4 col-md-4 col-xs-4 thumb">
-                        <a class="thumbnail" href="#">
-                            <img style="width: 100px; height: 100px; margin: 3px;"class="img-responsive"  src={{image.image.url}}  alt="">
-                            <a href="{% url 'delete_image' product_id=product_id image_id=image.id gender='boy' %}" >delete</a>
-                        </a>
-                    </div>
-                    <br>
-                {% endif %}
-            {% endfor %}
-        </div>
-    <br><br><br>
-{%  endblock %}
+    </div>
+{% endblock %}
     

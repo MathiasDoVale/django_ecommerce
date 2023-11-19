@@ -1,15 +1,24 @@
-{%  extends "base.html" %}
+{% extends "base.html" %}
 
-{%  block content %}
-    {% for key, value in data.items %}
-        <h1 class="card-text" style="color: black;">{{ value.product.color }}</h1>
-        {% for item in value.images %}
+{% block content %}
+  <div class="container">
+    {% for item in data %}
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <h1>{{ item.product.brand }} {{ item.product.model }} {{ item.product.color }}</h1>
+          {% for image in item.images %}
             <div class="card text-center" style="width: 14.5rem;">
-                <img class="card-img-top" src={{item.image.url}}>
+              <img class="card-img-top" src="{{ image.image.url }}" alt="{{ item.product.name }}">
             </div>
-        {% endfor %}
-        {% for item in value.items_inventory %}
-            <p>{{item.size}}</p>
-        {% endfor %}
+          {% endfor %}
+        </div>
+        <div class="col-md-6">
+          <h2>Sizes</h2>
+          {% for inventory_item in item.items_inventory %}
+            <p class="badge badge-primary p-2">{{ inventory_item.size }}</p>
+          {% endfor %}
+        </div>
+      </div>
     {% endfor %}
-{%  endblock %}
+  </div>
+{% endblock %}
