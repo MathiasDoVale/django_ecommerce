@@ -1,3 +1,58 @@
 .form-check-inline{ 
   column-count: 6;
   }
+
+.size-button-product-detail {
+  margin: 5px;
+  padding: 10px;  /* Add padding */
+  border: none;
+  border-radius: 5px;  /* Rounded borders */
+  color: white;
+  background-color: #4CAF50;
+  width: 60px;
+  height: 10%;
+  font-size: 14px;  /* Larger text */
+  transition: background-color 0.3s ease;  /* Smooth color transition */
+}
+
+.size-button-product-detail:hover {
+    background-color: rgb(20, 85, 47);  /* Darker green when hovered */
+}
+
+.size-button-product-detail:active, .size-button:focus {
+    background-color: #45a049;
+}
+
+.buy-button {
+  padding: 10px 20px;
+  background-color: #2370c9;
+  color: white;
+  text-decoration: none;
+}
+
+.thumbnail-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.thumbnail {
+  width: 100px;  /* Adjust as needed */
+  height: auto;
+  margin: 5px;
+}
+
+
+.default-image-container img {
+  width: 500px;  /* Adjust as needed */
+  height: auto;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.thumbnail-selected {
+  border: 2.5px solid rgb(180, 180, 180);
+}

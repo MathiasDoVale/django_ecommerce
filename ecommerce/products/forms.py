@@ -33,3 +33,7 @@ class AddImageForm(ModelForm):
     class Meta:
         model = Image
         exclude = ('product', )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['image'].required = False

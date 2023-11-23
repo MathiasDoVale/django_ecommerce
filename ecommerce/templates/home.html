@@ -1,12 +1,47 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Shop</h1>
-  {% if user.is_authenticated %}
-      Hello {{ user.email }}
-      {% else %}
-        <p>You are not logged in</p>
-        <a href="{% url 'login' %}">login</a>
-  {% endif %}
-  
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 px-0">
+    {% if user.is_authenticated %}
+        <span class="navbar-text text-light">Hello, {{ user.email }}</span>
+    {% else %}
+        <a class="btn btn-primary" href="{% url 'login' %}">Login</a>
+    {% endif %}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'home' %}">ALL</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'home' gender='man' %}">MEN</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'home' gender='woman' %}">WOMEN</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'home' gender='girl' %}">GIRL</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'home' gender='boy' %}">BOY</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        {% for item in data %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card h-100">
+                    <a href="{% url 'product_detail' product_id_model=item.product.id %}">
+                        <img class="card-img-top" src="{{ item.image.image.url }}" alt="Card image cap">
+                        <div class="card-body" style="display: flex; justify-content: center; align-items: center;">
+                            <h5 class="card-title">{{ item.product.brand }} {{ item.product.model }}</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

@@ -3,7 +3,11 @@
 {% block title %}Administration{% endblock %}
 
 {% block content %}
-  <h2>Administration</h2>
-  <a class="btn btn-primary" href="/administration/add_product/">Add Product</a>
-  <a class="btn btn-primary" href="/administration/edit/products">Edit Product</a>
+  <div class="container mt-5">
+    <h2 class="mb-4">Administration</h2>
+    <div class="d-flex justify-content-start">
+      <a class="btn btn-primary mr-2" href="/administration/add_product/">Add Product</a>
+      <a class="btn btn-primary" href="/administration/edit/products">Edit Product</a>
+    </div>
+  </div>
 {% endblock %}
