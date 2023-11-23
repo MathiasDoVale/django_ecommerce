@@ -2,13 +2,13 @@ from django.shortcuts import render, redirect
 from django.urls import reverse  # noqa: F401
 from .forms import AddProductForm, InventoryForm, AddImageForm, EditItemForm
 from django.contrib.admin.views.decorators import staff_member_required
-from .models import Inventory, Product, Image
+from .models import Inventory, Product, Image, Cart
 from django.db.models import ProtectedError
 from django.contrib import messages
 
 
 def home_view(request, gender=None):
-    products = Product.objects.all().order_by('creation_date')
+    products = Product.objects.filter(has_item=True).order_by('brand', 'model').distinct('brand', 'model')
     gender_filters = {'man': {'man': True}, 'woman': {'woman': True}, 'girl': {'girl': True}, 'boy': {'boy': True}}
     data = []
     for product in products:
@@ -163,3 +163,35 @@ def product_detail_view(request, product_id_model):
         if images and items_inventory:
             data.append({'product': product, 'images': images, 'items_inventory': items_inventory})
     return render(request, "products/product_detail.html", {'data': data})
+
+def add_cart_item_view(request):
+    product_id = request.GET.get('product_id')
+    product = Product.objects.get(id=product_id)
+    size = request.GET.get('size')
+    # Check if item is in stock
+    inventory = Inventory.objects.filter(product_id=product_id, size=size)
+    
+    
+    if inventory.exists():
+        # Add item to cart
+        Cart.objects.create(user=request.user, product=product, size=size)
+        messages.success(request, "Item was added to cart")
+        
+    return redirect(reverse('product_detail', kwargs={'product_id_model': product_id}))
+
+def cart_view(request):
+    cart_items = Cart.objects.filter(user=request.user)
+    cart_items_list = []
+
+    total_price = 0
+    for item in cart_items:
+        product = Product.objects.get(id=item.product_id)
+        total_price = product.price + total_price
+        image = Image.objects.filter(product_id=product.id).first()
+        cart_items_list.append({'cart_item_id': item.id, 'product': product, 'size': item.size, 'image': image})
+
+    return render(request, "cart/cart.html", {'cart_items_list': cart_items_list, 'total_price': total_price})
+
+def remove_from_cart_view(request, cart_item_id):
+    Cart.objects.get(id=cart_item_id).delete()
+    return redirect(reverse('cart'))

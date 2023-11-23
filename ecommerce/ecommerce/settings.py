@@ -140,7 +140,7 @@ MEDIA_ROOT = BASE_DIR / "staticfiles" / "media"
 
 MEDIA_URL = "/media/"
 
-STATIC_URL = 'staticfiles/media/'
+STATIC_URL = 'staticfiles/'
 
 STATICFILES_DIRS = [  # Agregado
     BASE_DIR / "staticfiles"

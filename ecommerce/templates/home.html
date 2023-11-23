@@ -35,7 +35,7 @@
                 <div class="card h-100">
                     <a href="{% url 'product_detail' product_id_model=item.product.id %}">
                         <img class="card-img-top" src="{{ item.image.image.url }}" alt="Card image cap">
-                        <div class="card-body">
+                        <div class="card-body" style="display: flex; justify-content: center; align-items: center;">
                             <h5 class="card-title">{{ item.product.brand }} {{ item.product.model }}</h5>
                         </div>
                     </a>

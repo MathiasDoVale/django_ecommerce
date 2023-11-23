@@ -31,10 +31,16 @@ from products.views import (
     edit_item_inventory_view,
     delete_item_inventory_view,
     delete_image_view,
-    product_detail_view
+    product_detail_view,
+    add_cart_item_view,
+    cart_view,
+    remove_from_cart_view
 )
 
 urlpatterns = [
+    path('remove_item_cart/<int:cart_item_id>', remove_from_cart_view, name='remove_item_cart'),
+    path('cart/', cart_view, name='cart'),
+    path('product/add_to_cart/', add_cart_item_view, name='add_cart_item'),
     path('product/<int:product_id_model>', product_detail_view, name='product_detail'),  # noqa: E501
     path('administration/inventory/image/delete/<int:product_id>/<int:image_id>/<str:gender>', delete_image_view, name='delete_image'),  # noqa: E501
     path('administration/inventory/delete/<int:product_id>/<int:item_id>', delete_item_inventory_view, name='delete_item_inventory'),  # noqa: E501
