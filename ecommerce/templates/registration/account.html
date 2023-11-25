@@ -1,32 +1,21 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
     <form method="post" class="mt-5">
         {% csrf_token %}
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 offset-md-3">
-                    <h1 class="mb-3">Your info</h1>
-                    {{ user_form|crispy }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 offset-md-3">
-                    <h1 class="mb-3">Shipping info</h1>
-                    {{ shipping_form|crispy }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 offset-md-3">
-                    <h1 class="mb-3">Billing info</h1>
-                    {{ billing_form|crispy }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 offset-md-3">
-                    <button type="submit" class="btn btn-primary mt-3">Save</button>
-                </div>
-            </div>
-        </div>
+        <h1>Your info</h1>
+        {{user_form.as_p}}
+        <h1>Shipping info</h1>
+        {{shipping_form.as_p}}
+        <h1>Billing info</h1>
+        <button type="button" id="copyButton" class="btn btn-secondary" onclick="copyShippingToBilling()" >Copy Shipping Info</button>
+        <br>
+        <br>
+        <br>
+        {{billing_form.as_p}}
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <br>
+        <br>
     </form>
+<script src="{% static 'js/scripts.js' %}"></script>
 {% endblock %}

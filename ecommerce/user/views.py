@@ -22,7 +22,7 @@ def account_view(request):
             billing.save()   
     else:
         user_form = CustomUserChangeForm(instance=user)
-        shipping_form = ShippingAddressForm(instance=shipping_address if shipping_address else None)
-        billing_form = BillingAddressForm(instance=billing_address if billing_address else None)
+        shipping_form = ShippingAddressForm(prefix='shipping', instance=shipping_address if shipping_address else None)
+        billing_form = BillingAddressForm(prefix='billing', instance=billing_address if billing_address else None)
 
     return render(request, 'registration/account.html', {'user': user, 'user_form': user_form, 'shipping_form': shipping_form, 'billing_form': billing_form})

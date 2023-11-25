@@ -20,3 +20,19 @@ function selectSize(button, product_id) {
   var urlBase = addToCartButton.getAttribute('data-url-base');
   addToCartButton.href = urlBase + "?product_id=" + product_id + "&size=" + selectedSize;
 }
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  function copyShippingToBilling() {
+      document.getElementById('copyButton').addEventListener('click', function() {
+          var shippingInputs = document.querySelectorAll('[name^="shipping-"]');
+          shippingInputs.forEach(function(shippingInput) {
+              var fieldName = shippingInput.name.replace('shipping-', '');
+              var billingInput = document.querySelector('[name="billing-' + fieldName + '"]');
+              if (billingInput) {
+                  billingInput.value = shippingInput.value;
+              }
+          });
+      });
+  }
+  copyShippingToBilling();
+});
