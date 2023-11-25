@@ -45,7 +45,7 @@ class ShippingAddress(Address):
     Stores the address of a user.
 
     """
-    user = models.ManyToManyField(CustomUser, related_name='shipping_addresses')  # noqa: E501
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='shipping_addresses')
 
 
 class BillingAddress(Address):
@@ -53,7 +53,7 @@ class BillingAddress(Address):
     Stores the billing address of a user.
 
     """
-    user = models.ManyToManyField(CustomUser, related_name='billing_addresses')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='billing_addresses')
     tax_id = models.CharField(max_length=30, blank=True)
 
 

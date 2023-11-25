@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form method="post" class="mt-5">
+        {% csrf_token %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <h1 class="mb-3">Your info</h1>
+                    {{ user_form|crispy }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <h1 class="mb-3">Shipping info</h1>
+                    {{ shipping_form|crispy }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <h1 class="mb-3">Billing info</h1>
+                    {{ billing_form|crispy }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <button type="submit" class="btn btn-primary mt-3">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

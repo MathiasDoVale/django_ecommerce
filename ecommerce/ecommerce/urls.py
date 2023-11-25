@@ -34,10 +34,14 @@ from products.views import (
     product_detail_view,
     add_cart_item_view,
     cart_view,
-    remove_from_cart_view
+    remove_from_cart_view,
+)
+from user.views import (
+    account_view
 )
 
 urlpatterns = [
+    path('account/', account_view, name='account'),
     path('remove_item_cart/<int:cart_item_id>', remove_from_cart_view, name='remove_item_cart'),
     path('cart/', cart_view, name='cart'),
     path('product/add_to_cart/', add_cart_item_view, name='add_cart_item'),
