@@ -46,7 +46,7 @@
                 {% endfor %}
                 <br>
                 <br>
-                <a id="add-to-cart-button-{{ item.product.id }}" data-url-base="{% url 'add_cart_item' %}">Add to cart</a>
+                <a class="btn btn-success ml-2" style="background-color: darkgreen;" id="add-to-cart-button-{{ item.product.id }}" data-url-base="{% url 'add_cart_item' %}">Add to cart</a>
               </div>
         </div>
       </div>
