@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse  # noqa: F401
 from .forms import AddProductForm, InventoryForm, AddImageForm, EditItemForm
 from django.contrib.admin.views.decorators import staff_member_required
-from .models import Inventory, Product, Image, Cart
+from .models import Inventory, Product, Image, Cart, Order, OrderItem
 from django.db.models import ProtectedError
 from django.contrib import messages
 
@@ -128,11 +128,7 @@ def edit_item_inventory_view(request, item_id):
 
 @staff_member_required
 def delete_item_inventory_view(request, product_id, item_id):
-    product = Product.objects.get(id=product_id)
-    Inventory.objects.get(id=item_id).delete()
-    if not Inventory.objects.filter(product_id=product_id).exists():
-        product.has_item = False
-        product.save()
+    Inventory.delete_item(product_id, item_id)
     return redirect(reverse('add_item_inventory', kwargs={'product_id': product_id}))
 
 
@@ -180,7 +176,7 @@ def add_cart_item_view(request):
     return redirect(reverse('product_detail', kwargs={'product_id_model': product_id}))
 
 def cart_view(request):
-    cart_items = Cart.objects.filter(user=request.user)
+    cart_items = Cart.objects.filter(user=request.user, active=True)
     cart_items_list = []
 
     total_price = 0
@@ -195,3 +191,45 @@ def cart_view(request):
 def remove_from_cart_view(request, cart_item_id):
     Cart.objects.get(id=cart_item_id).delete()
     return redirect(reverse('cart'))
+
+
+def checkout(request):
+    if request.method == 'GET':
+        cart_items = Cart.objects.filter(user=request.user, active=True)
+        cart_items_list = []
+
+        total_price = 0
+        for item in cart_items:
+            product = Product.objects.get(id=item.product_id)
+            total_price = product.price + total_price
+            image = Image.objects.filter(product_id=product.id).first()
+            cart_items_list.append({'cart_item_id': item.id, 'product': product, 'size': item.size, 'image': image})
+
+        return render(request, "cart/checkout.html", {'cart_items_list': cart_items_list, 'total_price': total_price})
+
+    if request.method == 'POST':
+        cart = Cart.objects.filter(user=request.user, active=True)
+        order = Order.objects.create(user=request.user)
+        # Payment logic goes here
+        for item in cart:
+            try:
+                item_inventory = Inventory.objects.filter(product_id=item.product, size=item.size).first()
+            except Inventory.DoesNotExist:
+                messages.error(request, "Item is not in stock: "+ str(item.product.brand) + str(item.product.model) + str(item.size))
+                return redirect(reverse('cart'))
+            
+            OrderItem.objects.create(
+                item_inventory=item_inventory,
+                order=order,
+                quantity=1
+            )
+            item.active = False
+            item.save()
+        items = OrderItem.objects.filter(order=order)
+
+        for item in items:
+            if hasattr(item, 'item_inventory') and item.item_inventory:
+                Inventory.delete_item(item.item_inventory.product_id, item.item_inventory.id)
+    order.state = 'PAYED'
+    order.save()
+    return render(request, 'cart/confirmation.html', {'order_id': order.id})

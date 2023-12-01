@@ -35,12 +35,14 @@ from products.views import (
     add_cart_item_view,
     cart_view,
     remove_from_cart_view,
+    checkout
 )
 from user.views import (
     account_view
 )
 
 urlpatterns = [
+    path('checkout/', checkout, name='checkout'),
     path('account/', account_view, name='account'),
     path('remove_item_cart/<int:cart_item_id>', remove_from_cart_view, name='remove_item_cart'),
     path('cart/', cart_view, name='cart'),

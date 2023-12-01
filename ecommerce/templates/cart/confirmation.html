@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+{% block content %}
+  <div class="container mt-5">
+    <div class="alert alert-success" role="alert">
+      <h4 class="alert-heading">Order Confirmed!</h4>
+      <p>Your order has been confirmed with the ID: {{ order_id }}</p>
+      <hr>
+      <p class="mb-0">
+        <a href="{% url 'home' %}" class="btn btn-primary">Go to Home Page</a>
+      </p>
+    </div>
+  </div>
+{% endblock %}
