@@ -19,6 +19,7 @@ from django.urls import include, path
 from django.views.generic.base import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
+from api.urls import urlsapi
 
 from login.views import signup_view
 from products.views import (
@@ -66,3 +67,4 @@ urlpatterns = [
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += urlsapi
