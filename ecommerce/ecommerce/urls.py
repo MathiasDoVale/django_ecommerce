@@ -19,7 +19,6 @@ from django.urls import include, path
 from django.views.generic.base import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
-from api.urls import urlsapi
 
 from login.views import signup_view
 from products.views import (
@@ -43,6 +42,7 @@ from user.views import (
 )
 
 urlpatterns = [
+    path('api/', include('api.urls')),
     path('checkout/', checkout, name='checkout'),
     path('account/', account_view, name='account'),
     path('remove_item_cart/<int:cart_item_id>', remove_from_cart_view, name='remove_item_cart'),
@@ -67,4 +67,3 @@ urlpatterns = [
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += urlsapi

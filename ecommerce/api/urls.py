@@ -1,14 +1,16 @@
-from django.urls import path, include
-from rest_framework import routers
-from api.viewsets import UserViewSet
+from django.urls import path
+from .views import (
+    register_user,
+    user_login,
+    user_logout,
+    home_products,
+    product_detail
+)
 
-# Routers provide an easy way of automatically determining the URL conf.
-router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
-
-# Wire up our API using automatic URL routing.
-# Additionally, we include login URLs for the browsable API.
-urlsapi = [
-    path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+urlpatterns = [
+    path('products/<int:product_id_model>', product_detail, name='product_detail'),
+    path('register/', register_user, name='register'),
+    path('login/', user_login, name='login'),
+    path('logout/', user_logout, name='logout'),
+    path('', home_products, name='home')
 ]
