@@ -37,11 +37,17 @@
             <td colspan="6" style="color: white;" class="text-center">Your cart is empty.</td>
           </tr>
         {% endfor %}
-        <tr style="color: white; font-size: large; font-family: 'Courier New', Courier, monospace;">
-          <td colspan="5" class="text-right">Total:</td>
-          <td>{{total_price}}</td>
-          <td><button type="submit" class="btn btn-success">Pay</button></td>
-        </tr>
+        {% if cart_items_list %}
+          <tr style="color: white; font-size: large; font-family: 'Courier New', Courier, monospace;">
+            <td colspan="5" class="text-right">Total:</td>
+            <td>{{total_price}}</td>
+            <td>
+              <form method="get" action="{% url 'checkout' %}">
+                <button type="submit" class="btn btn-success" >Go to Pay</button>
+              </form>
+            </td>
+          </tr>
+        {% endif %}
       </tbody>
     </table>
   </div>

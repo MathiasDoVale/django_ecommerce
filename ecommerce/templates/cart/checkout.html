@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+{% block content %}
+  <div class="container mt-5">
+    <h4 class="mb-3">Payment</h4>
+    <div class="row">
+      <div class="col-md-6">
+        <table class="table table-striped table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Brand</th>
+              <th scope="col">Model</th>
+              <th scope="col">Color</th>
+              <th scope="col">Size</th>
+              <th scope="col">Image</th>
+              <th scope="col">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in cart_items_list %}
+              <tr style="color: white;">
+                <td>{{ item.product.brand }}</td>
+                <td>{{ item.product.model }}</td>
+                <td>{{ item.product.color }}</td>
+                <td>{{ item.size }}</td>
+                <td style="width: 100px;"><img src="{{ item.image.image.url }}" class="img-fluid" alt="{{ item.product.model }}"></td>
+                <td>{{ item.product.price }}</td>
+              </tr>
+            {% endfor %}
+            {% if cart_items_list %}
+              <tr style="color: white; font-size: large; font-family: 'Courier New', Courier, monospace;">
+                <td colspan="5" class="text-right">Total:</td>
+                <td>{{total_price}}</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <form method="post" action="{% url 'checkout' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="cc-name">Name on card</label>
+            <input type="text" class="form-control" id="cc-name" placeholder="" required>
+          </div>
+          <div class="form-group">
+            <label for="cc-number">Credit card number</label>
+            <input type="text" class="form-control" id="cc-number" placeholder="" required>
+          </div>
+          <div class="form-group">
+            <label for="cc-expiration">Expiration</label>
+            <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+          </div>
+          <div class="form-group">
+            <label for="cc-cvv">CVV</label>
+            <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Pay</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

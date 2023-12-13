@@ -1,6 +1,9 @@
 from django.db import models
 from django.utils import timezone
-from .const import SIZE_CHOICES
+from .const import (
+    SIZE_CHOICES,
+    ORDERS_STATE_CHOICES
+)
 from django.conf import settings
 
 
@@ -33,6 +36,14 @@ class Inventory(models.Model):
                 product.save()
                 i += 1
 
+    @classmethod
+    def delete_item(self, product_id, item_id):
+        product = Product.objects.get(id=product_id)
+        Inventory.objects.get(id=item_id).delete()
+        if not Inventory.objects.filter(product_id=product_id).exists():
+            product.has_item = False
+            product.save()    
+
 
 class Image(models.Model):
     image = models.ImageField(upload_to="shoes", null=False, blank=False)
@@ -48,3 +59,21 @@ class Cart(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     size = models.CharField(max_length=5, choices=SIZE_CHOICES,)
     quantity = models.PositiveIntegerField(default=1)
+    active = models.BooleanField(default=True)
+
+
+class Order(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    state = models.CharField(max_length=10, choices=ORDERS_STATE_CHOICES, default='CREATED')
+    date_ordered = models.DateTimeField(auto_now_add=True)
+
+    def total_price(self):
+        return sum(item.total_price() for item in self.items.all())
+
+class OrderItem(models.Model):
+    item_inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def total_price(self):
+        return self.item_inventory.product.price * self.quantity

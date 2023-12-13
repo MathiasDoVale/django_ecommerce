@@ -57,3 +57,11 @@ GENDERS_CHOICES = (
     ('BOY', 'Boy'),
     ('GIRL', 'Girl'),
 )
+
+ORDERS_STATE_CHOICES = (
+    ('CREATED', 'Created'),
+    ('PAID', 'Paid'),
+    ('DELIVERING', 'Delivering'),
+    ('DELIVERED', 'Delivered'),
+    ('COMPLETED', 'Completed'),
+)
