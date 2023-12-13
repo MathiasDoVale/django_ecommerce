@@ -22,6 +22,9 @@ COPY entrypoint.sh /code/
 # Copy wait-for-it script into the image
 COPY wait-for-it.sh /code/
 
+# Install dos2unix and convert line endings of the scripts
+RUN apt-get update && apt-get install -y dos2unix && dos2unix /code/entrypoint.sh && dos2unix /code/wait-for-it.sh
+
 # Make the script executable
 RUN chmod +x /code/wait-for-it.sh
 
