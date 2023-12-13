@@ -3,7 +3,9 @@ from user.models import CustomUser
 from products.models import (
     Product,
     Image,
-    Inventory
+    Inventory,
+    Cart,
+    Order
 )
 
 class UserSerializer(serializers.ModelSerializer):
@@ -34,3 +36,13 @@ class InventorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Inventory
         fields = '__all__' 
+
+class CartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cart
+        fields = '__all__'
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = '__all__'

@@ -8,10 +8,12 @@ from .serializers import (
     UserSerializer,
     ProductSerializer,
     ImageSerializer,
-    InventorySerializer
+    InventorySerializer,
+    CartSerializer,
+    OrderSerializer
 )
 from rest_framework import status
-from products.models import Product, Image, Inventory
+from products.models import Product, Image, Inventory, Cart, Order, OrderItem
 ################## User ##################
 
 @api_view(['POST'])
@@ -86,3 +88,90 @@ def product_detail(request, product_id_model):
                 images_serializer.append(image_serializer.data)
             data.append({'product': product_serializer.data, 'images': images_serializer, 'items_inventory': items_inventory_serializer})
     return Response({'data': data}, status=status.HTTP_200_OK)
+
+
+################## Cart ##################
+@api_view(['GET', 'POST', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def cart(request):
+    if request.method == 'GET':
+        cart_items = Cart.objects.filter(user=request.user, active=True)
+        data = []
+
+        total_price = 0
+        for item in cart_items:
+            product = Product.objects.get(id=item.product_id)
+            total_price = product.price + total_price
+            image = Image.objects.filter(product_id=product.id).first()
+
+            product_serializer = ProductSerializer(product)
+            image_serializer = ImageSerializer(image)
+            item_cart_serializer = CartSerializer(item)
+            data.append({'cart_item_id': item_cart_serializer.data, 'product': product_serializer.data, 'image': image_serializer.data})
+
+        return Response({'data': data}, status=status.HTTP_200_OK)
+
+    elif request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        product = Product.objects.get(id=product_id)
+        size = request.POST.get('size')
+        # Check if item is in stock
+        inventory = Inventory.objects.filter(product_id=product_id, size=size)
+        if inventory.exists():
+            # Add item to cart
+            Cart.objects.create(user=request.user, product=product, size=size)
+        return Response({'message': 'Item added to cart'}, status=status.HTTP_200_OK)
+    
+    elif request.method == 'DELETE':
+        cart_item_id = request.data.get('cart_item_id')
+        Cart.objects.get(id=cart_item_id).delete()
+        return Response({'message': 'Item deleted from cart'}, status=status.HTTP_200_OK)
+    
+
+################## Checkout ##################
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+def checkout(request):
+    if request.method == 'GET':
+        cart_items = Cart.objects.filter(user=request.user, active=True)
+        data = []
+
+        total_price = 0
+        for item in cart_items:
+            product = Product.objects.get(id=item.product_id)
+            total_price = product.price + total_price
+            image = Image.objects.filter(product_id=product.id).first()
+
+            product_serializer = ProductSerializer(product)
+            image_serializer = ImageSerializer(image)
+            item_cart_serializer = CartSerializer(item)
+            data.append({'cart_item_id': item_cart_serializer.data, 'product': product_serializer.data, 'image': image_serializer.data})
+
+        return Response({'data': data}, status=status.HTTP_200_OK)
+    
+    elif request.method == 'POST':
+        cart = Cart.objects.filter(user=request.user, active=True)
+        order = Order.objects.create(user=request.user)
+        # Payment logic goes here
+        for item in cart:
+            try:
+                item_inventory = Inventory.objects.filter(product_id=item.product, size=item.size).first()
+            except Inventory.DoesNotExist:
+                return Response({'message': "Item is not in stock: "+ str(item.product.brand) + str(item.product.model) + str(item.size)}, status=status.HTTP_400_BAD_REQUEST)
+            
+            OrderItem.objects.create(
+                item_inventory=item_inventory,
+                order=order,
+                quantity=1
+            )
+            item.active = False
+            item.save()
+        items = OrderItem.objects.filter(order=order)
+
+        for item in items:
+            if hasattr(item, 'item_inventory') and item.item_inventory:
+                Inventory.delete_item(item.item_inventory.product_id, item.item_inventory.id)
+        order.state = 'PAYED'
+        order.save()
+        order_serializer = OrderSerializer(order)
+        return Response({'data': order_serializer.data}, status=status.HTTP_200_OK)
