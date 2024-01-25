@@ -33,7 +33,8 @@ env/
 venv/ 
 ENV/ 
 env.bak/ 
-venv.bak/ 
+venv.bak/
+virtual_env/ 
 
 # Distribution / packaging 
 .Python build/ 
