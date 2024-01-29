@@ -108,13 +108,13 @@ def cart(request):
             image_serializer = ImageSerializer(image)
             item_cart_serializer = CartSerializer(item)
             data.append({'cart_item_id': item_cart_serializer.data, 'product': product_serializer.data, 'image': image_serializer.data})
-
         return Response({'data': data}, status=status.HTTP_200_OK)
 
     elif request.method == 'POST':
-        product_id = request.POST.get('product_id')
+        data = request.data if request.content_type == 'application/json' else request.POST
+        product_id = data.get('product_id')
+        size = data.get('size')
         product = Product.objects.get(id=product_id)
-        size = request.POST.get('size')
         # Check if item is in stock
         inventory = Inventory.objects.filter(product_id=product_id, size=size)
         if inventory.exists():
@@ -123,7 +123,8 @@ def cart(request):
         return Response({'message': 'Item added to cart'}, status=status.HTTP_200_OK)
     
     elif request.method == 'DELETE':
-        cart_item_id = request.data.get('cart_item_id')
+        data = request.data if request.content_type == 'application/json' else request.POST
+        cart_item_id = data.get('cart_item_id')
         Cart.objects.get(id=cart_item_id).delete()
         return Response({'message': 'Item deleted from cart'}, status=status.HTTP_200_OK)
     
